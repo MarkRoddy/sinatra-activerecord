@@ -16,10 +16,10 @@ module Sinatra
 
   module ActiveRecordExtension
     def self.registered(app)
-      if ENV['DATABASE_URL']
-        app.set :database, ENV['DATABASE_URL']
-      elsif File.exist?("#{Dir.pwd}/config/database.yml")
+      if File.exist?("#{Dir.pwd}/config/database.yml")
         app.set :database_file, "#{Dir.pwd}/config/database.yml"
+      elsif ENV['DATABASE_URL']
+        app.set :database, ENV['DATABASE_URL']
       end
 
       unless defined?(Rake) || [:test, :production].include?(app.settings.environment)
